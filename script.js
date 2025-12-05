@@ -4,7 +4,13 @@ display.innerHTML ="";
 function click(tar){
     const id = document.getElementById(tar);
     id.addEventListener("click", event=>{
+       if(display.innerHTML == "NaN" || display.innerHTML.startsWith("ERROR: Div by 0")){
+        display.innerHTML = "";
+       }
        display.innerHTML += id.textContent;
+       if(tar === "plus" || tar === "minus" || tar === "mul" || tar === "divison"){
+            enable("deci");
+       }
     })
 
 }
@@ -13,8 +19,14 @@ function erase(tar){
     const id = document.getElementById(tar);
     id.addEventListener("click", event=>{
        display.innerHTML = "";
+       enable("deci");
     })
 
+}
+
+function enable(tar){
+    const id = document.getElementById(tar);
+    return id.disabled = false;
 }
 
 function backspace(tar){
@@ -27,6 +39,26 @@ function backspace(tar){
             newstring += oldstring[i];
         }
         display.innerHTML = newstring;
+    })
+}
+
+
+
+function disable(tar){
+    const id = document.getElementById(tar);
+    return id.disabled = true;
+}
+
+
+function decimal(tar){
+    const id = document.getElementById(tar);
+    id.addEventListener("click", event =>{
+        display.innerHTML += ".";
+        id.disabled = true;
+        disable("minus");
+        disable("plus");
+        disable("mul");
+        disable("divison");
     })
 }
 
@@ -94,6 +126,41 @@ function equals(tar){
     })
 }
 
+document.addEventListener("keydown", (event) => {
+    const key = event.key;
+
+    // Map keys to button IDs
+    const keyToId = {
+        "0": "zero",
+        "1": "one",
+        "2": "two",
+        "3": "three",
+        "4": "four",
+        "5": "five",
+        "6": "six",
+        "7": "seven",
+        "8": "eight",
+        "9": "nine",
+        "+": "plus",
+        "-": "minus",
+        "*": "mul",
+        "/": "divison",
+        ".": "deci",
+        "Enter": "equal",
+        "=": "equal",
+        "Backspace": "del",
+        "Delete": "clear",
+        "c": "clear"
+    };
+
+    if (keyToId[key]) {
+        const btn = document.getElementById(keyToId[key]);
+        if (btn && !btn.disabled) {
+            btn.click();
+        }
+    }
+});
+
 
 function add(target1, target2){
         return Number(target1) + Number(target2);  
@@ -126,3 +193,4 @@ click("minus");
 erase("clear");
 backspace("del");
 equals("equal");
+decimal("deci");
