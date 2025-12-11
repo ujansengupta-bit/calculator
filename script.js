@@ -8,6 +8,11 @@ function click(tar){
         display.innerHTML = "";
        }
        display.innerHTML += id.textContent;
+       enable("minus");
+       enable("plus");
+       enable("mul");
+       enable("divison");
+       
        if(tar === "plus" || tar === "minus" || tar === "mul" || tar === "divison"){
             enable("deci");
        }
